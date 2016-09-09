@@ -1,0 +1,180 @@
+﻿<Page
+    x:Class="MyCalculatorApp.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MyCalculatorApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style x:Key="KeypadStyle" TargetType="Button">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="FontFamily" Value="verdana"/>
+        </Style>
+
+        <Style x:Key="MButtons" TargetType="Button">
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Width" Value="50" />
+        </Style>
+
+        <Style x:Key="RightMbuttons" TargetType="Button">
+            <Setter Property="Margin" Value="0,5,5,0"/>
+            <Setter Property="Foreground" Value="Blue"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+    </Page.Resources>
+
+    <SplitView x:Name="MySplitView" DisplayMode="CompactOverlay"  IsPaneOpen="False" 
+               CompactPaneLength="0" OpenPaneLength="220">
+
+        <SplitView.Pane>
+            <StackPanel Background="{ThemeResource ButtonBorderThemeBrush}">
+                <StackPanel Margin="0,5,0,0" Orientation="Horizontal">
+                    <Button x:Name="HamburgerButton" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
+                    Width="50" Height="50" Background="Transparent" Click="HamburgerButton_Click"/>
+                    <TextBlock Text="CALCULATOR" Margin="0,18,0,0" FontWeight="Bold"/>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="2,20,0,0">
+                    <TextBlock Text="Not Implemented yet.!!" />
+                </StackPanel>
+            </StackPanel>
+        </SplitView.Pane>
+
+        <SplitView.Content>
+            <Grid x:Name="mainGrid" Background="{ThemeResource ButtonDisabledBackgroundThemeBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+
+                <!--<VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup>
+                            <VisualState>
+                                <VisualState.StateTriggers>-->
+                                    <!--VisualState to be triggered when window width is >=720 effective pixels.-->
+                                    <!--<AdaptiveTrigger MinWindowWidth="720" />
+                                </VisualState.StateTriggers>
+
+                                <VisualState.Setters>
+                                <Setter Target="rootPivot.Visibility" Value="Collapsed" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>-->
+
+                <!--Top view in the content-->
+                <StackPanel Margin="5,10,0,0"  Orientation="Horizontal">
+                    <Button x:Name="HamburgerButton1" FontFamily="Segoe MDL2 Assets" Content="&#xE700;"
+                            FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                            Background="Transparent" Click="HamburgerButton_Click" />
+                    <TextBlock x:Name="StandardBlock" FontWeight="Bold" Padding="6" Text="STANDARD"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Vertical" Margin="0,0,10,0" VerticalAlignment="Bottom" Grid.Row="1">
+                    <TextBlock x:Name="tempBlock" HorizontalAlignment="Right" FontSize="20" CharacterSpacing="5"/>
+                    <TextBlock x:Name="DisplayBlock" HorizontalAlignment="Right" Height="80" CharacterSpacing="2"
+                               FontWeight="Bold" Text="0" FontSize="40" />
+                </StackPanel>
+
+                <!--Middle view having M Buttons-->
+                <StackPanel Orientation="Horizontal" MinWidth="20" Margin="10,0,0,0" Grid.Row="2" HorizontalAlignment="Stretch">
+                    <Button Content="MC" x:Name="McBtn" IsEnabled="False" Style="{StaticResource MButtons}" Click="MC_Click"/>
+                    <Button Content="MR" x:Name="MrBtn" IsEnabled="False" Style="{StaticResource MButtons}" Click="MR_Click"/>
+                    <Button Content="M+" Style="{StaticResource MButtons}" Click="MPlus_click"/>
+                    <Button Content="M-" Style="{StaticResource MButtons}" Click="MMinus_click"/>
+                    <Button Content="MS" Style="{StaticResource MButtons}" Click="MS_Click" />
+                </StackPanel>
+
+                <!--Keypad styles bottom-->
+                <Grid Grid.Row="3" Margin="10,0,0,20" Background="{ThemeResource AppBarToggleButtonCheckedDisabledForegroundThemeBrush}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="CE" Content="CE" Style="{StaticResource KeypadStyle}" Click="TotClear_Click" />
+                    <Button x:Name="C"  Content="C" Grid.Column="1" Style="{StaticResource KeypadStyle}" Click="ClearData_Click" />
+                    <Button x:Name="CLR" Content="CLR" Grid.Column="2" Style="{StaticResource KeypadStyle}" Click="ClearValue_Click" />
+                    <Button x:Name="one" Content="1" Grid.Row="1" Style="{StaticResource KeypadStyle}" Click="Value_Click" />
+                    <Button x:Name="two" Content="2" Grid.Row="1" Grid.Column="1" Style="{StaticResource KeypadStyle}" Click="Value_Click" />
+                    <Button x:Name="three" Content="3" Grid.Row="1" Grid.Column="2" Style="{StaticResource KeypadStyle}" Click="Value_Click" />
+                    <Button x:Name="four" Content="4" Grid.Row="2" Style="{StaticResource KeypadStyle}" Click="Value_Click" />
+                    <Button x:Name="five" Content="5" Grid.Row="2" Grid.Column="1" Style="{StaticResource KeypadStyle}" Click="Value_Click" />
+                    <Button x:Name="six" Content="6" Grid.Row="2" Grid.Column="2" Style="{StaticResource KeypadStyle}" Click="Value_Click" />
+                    <Button x:Name="seven" Content="7" Grid.Row="3" Style="{StaticResource KeypadStyle}" Click="Value_Click" />
+                    <Button x:Name="eight" Content="8" Grid.Row="3" Grid.Column="1" Style="{StaticResource KeypadStyle}" Click="Value_Click" />
+                    <Button x:Name="nine" Content="9" Grid.Row="3" Grid.Column="2" Style="{StaticResource KeypadStyle}" Click="Value_Click" />
+                    <Button x:Name="hash" Content="#" Grid.Row="4" Style="{StaticResource KeypadStyle}" Click="Value_Click" />
+                    <Button x:Name="zero" Content="0" Grid.Row="4" Grid.Column="1" Style="{StaticResource KeypadStyle}" Click="Value_Click" />
+                    <Button x:Name="dot" Content="." Grid.Row="4" Grid.Column="2" Style="{StaticResource KeypadStyle}" Click="Value_Click" />
+                    <Button x:Name="mult" Content="*" Grid.Row="1" Grid.Column="3" Style="{StaticResource KeypadStyle}" Click="Ope_Click" />
+                    <Button x:Name="dvdBy" Content="/" Grid.Column="3" Style="{StaticResource KeypadStyle}" Click="Ope_Click" />
+                    <Button x:Name="minus" Content="-" Grid.Row="2" Grid.Column="3" Style="{StaticResource KeypadStyle}" Click="Ope_Click" />
+                    <Button x:Name="plus" Content="+" Grid.Row="3" Grid.Column="3" Style="{StaticResource KeypadStyle}" Click="Ope_Click" />
+                    <Button x:Name="equal" Content="=" Grid.Row="4" Grid.Column="3" Style="{StaticResource KeypadStyle}" Click="Submit_Click" />
+                </Grid>
+
+                <!--Displaying vertical line-->
+                <Line StrokeThickness="1" VerticalAlignment="Stretch" Grid.Column="1" Stroke="#FFB8B1B1" 
+                      Grid.RowSpan="3" X1="0" X2="0" Y1="0" Y2="360" />
+
+                <!--Right side View-->
+                <Pivot x:Name="rootPivot" Grid.Column="1" Grid.RowSpan="2">
+                    <PivotItem Header="History" >
+                        <!--Pivot content goes here-->
+                        <StackPanel>
+                            <TextBlock x:Name="historyblock1" Margin="10,5,0,0" TextAlignment="Right" FontSize="20" Text="No history items" />
+                            <TextBlock x:Name="historyblock2" Margin="10,5,0,0" TextAlignment="Right" FontSize="30"/>
+                            <!--<ListView Name="listItems" Background="Black" Margin="10,5,0,0" HorizontalAlignment="Right">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock FontSize="30" Text="{Binding Title, Mode=TwoWay}" />
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>-->
+                            <ListView x:Name="listItems" ItemsSource="{Binding ListData}"/>
+                        </StackPanel>
+                    </PivotItem>
+                    <PivotItem Header="Memory" >
+                        <!--Pivot content goes here-->
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock x:Name="memoryBlock" Text="No memory items" Margin="10,5,0,0" TextAlignment="Right" FontSize="20"/>
+                            <StackPanel x:Name="btnPanel" Orientation="Horizontal" Visibility="Collapsed" HorizontalAlignment="Right">
+                                <Button Content="MC" Style="{StaticResource RightMbuttons}" Click="MC_Click"/>
+                                <Button Content="M+" Style="{StaticResource RightMbuttons}" Click="MPlus_click"/>
+                                <Button Content="M-" Style="{StaticResource RightMbuttons}" Click="MMinus_click"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </PivotItem>
+                </Pivot>
+
+                <AppBarButton x:Name="deletetBtn" Visibility="Collapsed" Icon="Delete" Grid.Column="1" Grid.Row="3"
+                              HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                              Click="DeleteHistory"/>
+            </Grid>
+        </SplitView.Content>
+    </SplitView>
+</Page>
